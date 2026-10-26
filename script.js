@@ -14,14 +14,14 @@ Complete stylesheet
   }
 
 :root {
---bg: #232363;
---surface: #1e1eae;
---surface-light: #2c2c7f;
---border: #29293b;
+--bg: #100d18;
+--surface: #1a1426;
+--surface-light: #241b35;
+--border: #342744;
 --text: #f5f5fa;
 --muted: #9999b0;
---purple: #9b7bff;
---purple-dark: #7755e8;
+--purple: #aa8cff;
+--purple-dark: #7655cc;
 --green: #54d6a0;
 --red: f#ec425c;
 --radius: 16px;
@@ -39,6 +39,7 @@ background: var(--bg);
 color: var(--text);
 font-family: 'DM Sans', sans-serif;
 font-size: 15px;
+font-weight: 500;
 line-height: 1.6;
 }
 
@@ -82,15 +83,25 @@ min-height: 100vh;
 }
 
 .sidebar {
+position: fixed;
+top: 0;
+right: 0;
+left: auto;
 width: var(--sidebar-width);
 min-width: var(--sidebar-width);
-min-height: 100vh;
+height: 100vh;
+overflow-y: auto;
 padding: 28px 18px;
-background: #101019;
-border-right: 1px solid var(--border);
+background: #130f1c;
+border-left: 1px solid var(--border);
 display: flex;
 flex-direction: column;
 gap: 30px;
+}
+
+.sidebar nav {
+display: grid;
+gap: 8px;
 }
 
 .main-content,
@@ -98,6 +109,7 @@ gap: 30px;
 .dashboard {
 flex: 1;
 min-width: 0;
+margin-right: var(--sidebar-width);
 padding: 34px;
 }
 
@@ -153,6 +165,7 @@ border: 1px solid transparent;
 border-radius: 10px;
 background: transparent;
 color: var(--muted);
+font-weight: 600;
 text-align: left;
 transition: background 0.2s, color 0.2s;
 }
@@ -173,6 +186,7 @@ h2,
 h3,
 h4 {
 font-family: 'Space Grotesk', sans-serif;
+font-weight: 700;
 line-height: 1.25;
 letter-spacing: -0.5px;
 }
@@ -646,13 +660,27 @@ display: block;
 }
 
 .sidebar {
+    position: sticky;
+    top: 0;
+    right: auto;
+    left: auto;
     width: 100%;
     min-width: 0;
     min-height: auto;
+    height: auto;
+    overflow: visible;
     padding: 16px;
-    border-right: 0;
+    border-left: 0;
     border-bottom: 1px solid var(--border);
     gap: 15px;
+}
+
+.sidebar nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    gap: 6px;
 }
 
 .nav,
@@ -672,6 +700,7 @@ display: block;
 .main-content,
 .main,
 .dashboard {
+    margin-right: 0;
     padding: 20px 15px;
 }
 
@@ -741,46 +770,6 @@ h2 {
 const styleElement = document.createElement('style');
 styleElement.textContent = styles;
 document.head.appendChild(styleElement);
-
-const pageTitle = document.getElementById('page-title');
-const navigationItems = document.querySelectorAll('.nav-item[data-page]');
-const navigationLabels = {
-    overview: 'Overview',
-    tasks: 'My Tasks',
-    focus: 'Focus Room',
-    notes: 'My Notes',
-    goals: 'My Goals'
-};
-
-function navigateToSection(page, updateHash = true) {
-    const target = document.getElementById(`${page}-panel`);
-    const label = navigationLabels[page];
-
-    if (!target || !label) return;
-
-    navigationItems.forEach((item) => {
-        item.classList.toggle('active', item.dataset.page === page);
-    });
-
-    if (pageTitle?.firstChild) {
-        pageTitle.firstChild.textContent = label;
-    }
-
-    if (updateHash) {
-        history.replaceState(null, '', `#${page}`);
-    }
-
-    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-}
-
-navigationItems.forEach((item) => {
-    item.addEventListener('click', () => navigateToSection(item.dataset.page));
-});
-
-const initialPage = window.location.hash.slice(1);
-if (navigationLabels[initialPage]) {
-    navigateToSection(initialPage, false);
-}
 
 // ========================================
 // NEXORA — PLAN MY DAY
@@ -885,7 +874,7 @@ function openDayPlanner() {
         panel.style.cssText = `
             margin: 24px 0;
             padding: 26px;
-            background: linear-gradient(145deg, #1e1eae, #17172d);
+            background: linear-gradient(145deg, #1a1426, #130f1c);
             border: 1px solid #393970;
             border-radius: 18px;
             color: #ffffff;
@@ -1208,7 +1197,7 @@ function openDayPlanner() {
                 grid-template-columns: minmax(100px, 130px) minmax(0, 1fr);
                 gap: 14px;
                 padding: 15px;
-                background: #1e1eae;
+                background: #1a1426;
                 border: 1px solid #393970;
                 border-radius: 11px;
             `);
@@ -1373,7 +1362,7 @@ planButton?.addEventListener('click', () => {
         plan.style.cssText = `
             margin-top: 24px;
             padding: 24px;
-            background: #1e1eae;
+            background: #1a1426;
             border: 1px solid #393970;
             border-radius: 16px;
             color: #ffffff;
@@ -2226,7 +2215,7 @@ console.log("NEXORA automatic notes saving is ready.");
             padding: 22px;
             border: 1px solid var(--border, #393970);
             border-radius: 16px;
-            background: var(--surface, #1e1eae);
+            background: var(--surface, #1a1426);
         `;
 
         const cardTop = document.createElement("div");
@@ -2293,7 +2282,7 @@ console.log("NEXORA automatic notes saving is ready.");
             padding: 24px;
             border: 1px solid var(--border, #393970);
             border-radius: 16px;
-            background: var(--surface, #1e1eae);
+            background: var(--surface, #1a1426);
         `;
 
         const heading = document.createElement("h2");
@@ -2630,6 +2619,12 @@ console.log("NEXORA automatic notes saving is ready.");
     function navigateTo(page) {
         if (!pageNames[page]) return;
 
+        history.replaceState(null, "", `#${page}`);
+
+        document.querySelectorAll(".nexora-calendar-hidden").forEach(element => {
+            element.classList.remove("nexora-calendar-hidden");
+        });
+
         // Update the active sidebar button.
         navButtons.forEach(button => {
             const active = button.dataset.page === page;
@@ -2756,7 +2751,7 @@ console.log("NEXORA automatic notes saving is ready.");
         // Return to the top of the page.
         window.scrollTo({
             top: 0,
-            behavior: "smooth"
+            behavior: "instant"
         });
     }
 
@@ -2772,8 +2767,9 @@ console.log("NEXORA automatic notes saving is ready.");
         navigateTo("tasks");
     });
 
-    // Show Overview on startup.
-    navigateTo("overview");
+    // Restore the selected page from the URL, defaulting to Overview.
+    const initialPage = window.location.hash.slice(1);
+    navigateTo(pageNames[initialPage] ? initialPage : "overview");
 
     console.log("NEXORA navigation is ready.");
 })();
@@ -3532,7 +3528,7 @@ console.log("NEXORA automatic notes saving is ready.");
     calendarPanel.style.cssText = `
         margin-bottom: 28px;
         padding: clamp(16px, 3vw, 28px);
-        background: var(--surface, #1e1eae);
+        background: var(--surface, #1a1426);
         border: 1px solid var(--border, #393970);
         border-radius: 18px;
         color: var(--text, #ffffff);
@@ -3577,7 +3573,7 @@ console.log("NEXORA automatic notes saving is ready.");
             padding: 8px 12px;
             border: 1px solid var(--border, #393970);
             border-radius: 10px;
-            background: var(--surface-light, #2c2c7f);
+            background: var(--surface-light, #241b35);
             color: var(--text, #ffffff);
             cursor: pointer;
         `);
@@ -5593,388 +5589,4 @@ console.log("NEXORA automatic notes saving is ready.");
     saveData();
 
     console.log("NEXORA Level Up is ready!");
-})();
-// =====================================================
-// NEXORA — 5-DAY FREE TRIAL & SUBSCRIPTION GATE
-// =====================================================
-
-(() => {
-    if (window.__nexoraTrialInitialized) return;
-    window.__nexoraTrialInitialized = true;
-
-    const TRIAL_STORAGE_KEY = "nexora-trial-v1";
-    const TRIAL_DURATION_MS = 5 * 24 * 60 * 60 * 1000;
-
-    // Add your real checkout URL here after setting up
-    // a payment provider and subscription backend.
-    // Leave empty until checkout is configured.
-    const CHECKOUT_URL = "";
-
-    const main = document.querySelector(".main-content");
-
-    if (!main) {
-        console.error("NEXORA trial: workspace not found.");
-        return;
-    }
-
-    const DAY_MS = 24 * 60 * 60 * 1000;
-
-    let trialData;
-
-    // -------------------------------------------------
-    // LOAD OR START THE FREE TRIAL
-    // -------------------------------------------------
-
-    try {
-        const saved = JSON.parse(
-            localStorage.getItem(TRIAL_STORAGE_KEY) || "null"
-        );
-
-        if (
-            saved &&
-            Number.isFinite(saved.startedAt) &&
-            saved.startedAt > 0 &&
-            saved.startedAt <= Date.now()
-        ) {
-            trialData = saved;
-        } else {
-            trialData = {
-                startedAt: Date.now()
-            };
-
-            localStorage.setItem(
-                TRIAL_STORAGE_KEY,
-                JSON.stringify(trialData)
-            );
-        }
-    } catch (error) {
-        console.error("Unable to save trial information:", error);
-
-        alert(
-            "NEXORA cannot save your trial information in this browser. " +
-            "Please enable browser storage before continuing."
-        );
-
-        return;
-    }
-
-    const trialEndsAt =
-        trialData.startedAt + TRIAL_DURATION_MS;
-
-    // -------------------------------------------------
-    // BUILD THE TRIAL STATUS BANNER
-    // -------------------------------------------------
-
-    const banner = document.createElement("section");
-
-    banner.id = "nexora-trial-banner";
-
-    banner.style.cssText = `
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-        margin-bottom: 24px;
-        padding: 15px 18px;
-        border: 1px solid var(--border, #393970);
-        border-radius: 13px;
-        background: var(--surface, #1e1eae);
-        color: var(--text, #ffffff);
-    `;
-
-    const bannerText = document.createElement("div");
-
-    const bannerTitle = document.createElement("strong");
-    bannerTitle.textContent = "NEXORA Free Trial";
-
-    bannerTitle.style.cssText = `
-        display: block;
-        margin-bottom: 4px;
-        font-size: 14px;
-    `;
-
-    const bannerDescription = document.createElement("p");
-
-    bannerDescription.style.cssText = `
-        color: var(--muted, #aaa2c0);
-        font-size: 12px;
-        line-height: 1.6;
-    `;
-
-    bannerText.append(bannerTitle, bannerDescription);
-
-    const bannerButton = document.createElement("button");
-
-    bannerButton.type = "button";
-    bannerButton.textContent = "View Plans";
-
-    bannerButton.style.cssText = `
-        min-height: 40px;
-        padding: 10px 16px;
-        border: 0;
-        border-radius: 9px;
-        background: linear-gradient(135deg, #a78bfa, #7755e8);
-        color: #ffffff;
-        font-weight: 700;
-        cursor: pointer;
-    `;
-
-    banner.append(bannerText, bannerButton);
-
-    const topbar = main.querySelector(".topbar");
-
-    if (topbar) {
-        topbar.insertAdjacentElement("afterend", banner);
-    } else {
-        main.prepend(banner);
-    }
-
-    // -------------------------------------------------
-    // BUILD THE SUBSCRIPTION LOCK SCREEN
-    // -------------------------------------------------
-
-    let lockScreen = null;
-
-    function createLockScreen() {
-        if (lockScreen) return;
-
-        lockScreen = document.createElement("div");
-
-        lockScreen.id = "nexora-subscription-lock";
-        lockScreen.setAttribute("role", "dialog");
-        lockScreen.setAttribute("aria-modal", "true");
-        lockScreen.setAttribute(
-            "aria-labelledby",
-            "nexora-subscription-title"
-        );
-
-        lockScreen.style.cssText = `
-            position: fixed;
-            inset: 0;
-            z-index: 2147483647;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow-y: auto;
-            padding: 24px;
-            background: #0b0914;
-            color: #f5f3ff;
-        `;
-
-        const card = document.createElement("section");
-
-        card.style.cssText = `
-            width: 100%;
-            max-width: 490px;
-            padding: 34px 26px;
-            border: 1px solid #393056;
-            border-radius: 22px;
-            background: linear-gradient(145deg, #20183d, #11101f);
-            text-align: center;
-        `;
-
-        const logo = document.createElement("div");
-
-        logo.textContent = "NEXORA";
-
-        logo.style.cssText = `
-            margin-bottom: 28px;
-            color: #c4b5fd;
-            font-size: 17px;
-            font-weight: 800;
-            letter-spacing: 4px;
-        `;
-
-        const icon = document.createElement("div");
-        icon.textContent = "✦";
-
-        icon.style.cssText = `
-            margin-bottom: 14px;
-            color: #c4b5fd;
-            font-size: 46px;
-        `;
-
-        const heading = document.createElement("h1");
-
-        heading.id = "nexora-subscription-title";
-        heading.textContent = "Your free trial has ended.";
-
-        heading.style.cssText = `
-            margin-bottom: 13px;
-            color: #ffffff;
-            font-size: 28px;
-            line-height: 1.3;
-        `;
-
-        const description = document.createElement("p");
-
-        description.textContent =
-            "Thanks for trying NEXORA! To continue using your workspace, " +
-            "choose a subscription plan.";
-
-        description.style.cssText = `
-            margin-bottom: 24px;
-            color: #c5bfdc;
-            font-size: 14px;
-            line-height: 1.8;
-        `;
-
-        const upgradeButton = document.createElement("button");
-
-        upgradeButton.type = "button";
-        upgradeButton.textContent = "Upgrade to Continue";
-
-        upgradeButton.style.cssText = `
-            width: 100%;
-            min-height: 48px;
-            padding: 13px 18px;
-            border: 0;
-            border-radius: 11px;
-            background: linear-gradient(135deg, #a78bfa, #7755e8);
-            color: #ffffff;
-            font-size: 15px;
-            font-weight: 700;
-            cursor: pointer;
-        `;
-
-        const status = document.createElement("p");
-
-        status.setAttribute("role", "status");
-        status.setAttribute("aria-live", "polite");
-
-        status.style.cssText = `
-            margin-top: 14px;
-            color: #c5bfdc;
-            font-size: 12px;
-            line-height: 1.7;
-        `;
-
-        upgradeButton.addEventListener("click", () => {
-            if (CHECKOUT_URL) {
-                try {
-                    const checkout = new URL(CHECKOUT_URL);
-
-                    if (checkout.protocol !== "https:") {
-                        status.textContent =
-                            "Checkout must use a secure HTTPS address.";
-
-                        return;
-                    }
-
-                    window.location.assign(checkout.href);
-                } catch {
-                    status.textContent =
-                        "The checkout link has not been configured correctly.";
-                }
-            } else {
-                status.textContent =
-                    "Online payments are not connected yet. " +
-                    "A subscription checkout must be set up before " +
-                    "users can purchase access.";
-            }
-        });
-
-        const note = document.createElement("p");
-
-        note.textContent =
-            "Your saved workspace data remains in this browser.";
-
-        note.style.cssText = `
-            margin-top: 20px;
-            color: #aaa2c0;
-            font-size: 11px;
-            line-height: 1.7;
-        `;
-
-        card.append(
-            logo,
-            icon,
-            heading,
-            description,
-            upgradeButton,
-            status,
-            note
-        );
-
-        lockScreen.appendChild(card);
-        document.body.appendChild(lockScreen);
-    }
-
-    // -------------------------------------------------
-    // UPDATE TRIAL STATUS AND ENFORCE EXPIRATION
-    // -------------------------------------------------
-
-    function updateTrialStatus() {
-        const remainingMs = trialEndsAt - Date.now();
-
-        if (remainingMs <= 0) {
-            banner.style.display = "none";
-
-            // The current workspace is locked after expiration.
-            createLockScreen();
-
-            return;
-        }
-
-        const daysRemaining = Math.ceil(
-            remainingMs / DAY_MS
-        );
-
-        const hoursRemaining = Math.ceil(
-            remainingMs / (60 * 60 * 1000)
-        );
-
-        bannerDescription.textContent =
-            daysRemaining === 1
-                ? `Your trial ends in ${hoursRemaining} hour(s) or less.`
-                : `${daysRemaining} days remaining in your free trial.`;
-
-        bannerButton.textContent = "View Plans";
-
-        // Existing paid checkout setup may be added later.
-        bannerButton.onclick = () => {
-            if (CHECKOUT_URL) {
-                try {
-                    const checkout = new URL(CHECKOUT_URL);
-
-                    if (checkout.protocol === "https:") {
-                        window.location.assign(checkout.href);
-                    }
-                } catch {
-                    alert("The checkout link is invalid.");
-                }
-            } else {
-                alert(
-                    "Subscription checkout has not been connected yet."
-                );
-            }
-        };
-    }
-
-    // Check immediately, then periodically while the page stays open.
-    updateTrialStatus();
-
-    const trialInterval = window.setInterval(
-        updateTrialStatus,
-        30 * 1000
-    );
-
-    // Recheck when the user returns to the browser tab.
-    document.addEventListener("visibilitychange", () => {
-        if (!document.hidden) {
-            updateTrialStatus();
-        }
-    });
-
-    // Expose a cleanup function for development and testing.
-    // This does not reset or extend the trial.
-    window.nexoraTrialStatus = () => ({
-        startedAt: new Date(trialData.startedAt).toISOString(),
-        endsAt: new Date(trialEndsAt).toISOString(),
-        expired: Date.now() >= trialEndsAt
-    });
-
-    console.log("NEXORA 5-day free trial is active.");
-
 })();
